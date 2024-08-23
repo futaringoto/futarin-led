@@ -5,6 +5,8 @@
 git clone https://github.com/futaringoto/futarin-led.git
 ```
 ## ライブラリのインストール  
+こちらのライブラリを使用します。
+https://github.com/rpi-ws281x/rpi-ws281x-python.git  
 ```shell
 pip install rpi_ws281x
 ```
