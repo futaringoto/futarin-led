@@ -10,6 +10,7 @@ pip install rpi_ws281x
 ```
 ## 実行方法  
 ```shell
+cd futarin_led
 sudo python futarin_led
 ```
 また、コマンドの最後に -c　をつけることで^cで停止した時、光を消灯できます。  
