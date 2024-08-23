@@ -12,13 +12,13 @@ LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1-' for GPIOs 13, 19, 41, 45 or 53
 
-def colortest(strip,color,wait_ms=50):
-    for i in range(strip.numPixels()):
-        strip.setPixelColor(i, color)
-        strip.show()
-        time.sleep(wait_ms / 1000.0)
+#def colortest(strip,color,wait_ms=50):
+ #   for i in range(strip.numPixels()):
+  #      strip.setPixelColor(i, color)
+   #     strip.show()
+    #    time.sleep(wait_ms / 1000.0)
 #回転  iteratonsに回転数
-def cycle(strip, color, wait_ms=50, iterations=1):
+def cycle(strip, color, wait_ms=80, iterations=4):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for q in range(12):
@@ -32,9 +32,7 @@ def cycle(strip, color, wait_ms=50, iterations=1):
 def turn_on(strip, color, wait_ms=10, iterations=1):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
-        for q in range(12):
-            for i in range(0, strip.numPixels(), 12):
-                strip.setPixelColor(i + q, color)
+            strip.setPixelColor(i + q, color)
             strip.show()
             time.sleep(wait_ms / 1000.0)
         time.sleep(5)
@@ -75,10 +73,10 @@ if __name__ == '__main__':
 
         while True:
             #colortest(strip,Color(10,50,150))
-            cycle(strip,Color(100,100,100))
-            turn_on(strip,Color(40,50,60))
-            flash(strip,Color(80,90,150))
+            cycle(strip,Color(100,0,0))
+            turn_on(strip,Color(0,100,0))
+            flash(strip,Color(0,0,100))
             
     except KeyboardInterrupt:
         if args.clear:
-            colorWipe(strip, Color(0, 0, 0), 10)
+            cycle(strip, Color(0, 0, 0), 10)
