@@ -1,10 +1,12 @@
 import time
 from rpi_ws281x import PixelStrip, Color
 import argparse
+from flask import Flask,render_template,request
+
 
 # LED strip configuration:
 LED_COUNT = 12        # Number of LED pixels.
-LED_PIN = 18          # GPIO pin -connected to the pixels (18 uses PWM!).
+LED_PIN = 12          # GPIO pin -connected to the pixels (18 uses PWM!).
 # LED_PIN = 10        # GPIO pin connected to the pixels (10 uses SPI /dev/spidev0.0).
 LED_FREQ_HZ = 800000  # LED signal frequency in hertz (usually 800khz)
 LED_DMA = 10          # DMA channel to use for generating signal (try 10)
@@ -12,11 +14,8 @@ LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1-' for GPIOs 13, 19, 41, 45 or 53
 
-#def colortest(strip,color,wait_ms=50):
- #   for i in range(strip.numPixels()):
-  #      strip.setPixelColor(i, color)
-   #     strip.show()
-    #    time.sleep(wait_ms / 1000.0)
+app=Flask(__name__)
+
 #回転  iteratonsに回転数
 def cycle(strip, color, wait_ms=80, iterations=4):
     """Movie theater light style chaser animation."""
@@ -32,7 +31,9 @@ def cycle(strip, color, wait_ms=80, iterations=4):
 def turn_on(strip, color, wait_ms=10, iterations=1):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
-            strip.setPixelColor(i + q, color)
+        for q in range(12):
+            for i in range(0, strip.numPixels(), 12):
+                strip.setPixelColor(i + q, color)
             strip.show()
             time.sleep(wait_ms / 1000.0)
         time.sleep(5)
@@ -70,12 +71,13 @@ if __name__ == '__main__':
         print('Use "-c" argument to clear LEDs on exit')
 
     try:
-
-        while True:
-            #colortest(strip,Color(10,50,150))
-            cycle(strip,Color(100,0,0))
-            turn_on(strip,Color(0,100,0))
-            flash(strip,Color(0,0,100))
+        @app.route("/")
+        @app.route("wifi/high",methods=["post"])
+        def wifi_high():
+            return "wifi high"
+            
+        if __name__ == "__main__":
+            app.run(debug=True)
             
     except KeyboardInterrupt:
         if args.clear:

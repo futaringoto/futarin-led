@@ -1,15 +1,10 @@
-[tool.poetry]
+[project]
 name = "futarin-led"
 version = "0.1.0"
-description = ""
-authors = ["Your Name <you@example.com>"]
+description = "Add your description here"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-rpi_ws281x = "^5.0.0"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.9"
+dependencies = [
+    "flask>=3.0.3",
+    "rpi-ws281x>=5.0.0",
+]
