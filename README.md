@@ -61,4 +61,30 @@ xに任意の実数を入力し、点滅の回数を定められます。
 # main.py  
 flaskを利用しサーバーを立てています。
 ## 各エンドポイントの説明
-coming soon
+## wifi/  
+### wifi/high  
+Wifi接続が強い時。  
+青点灯  
+### wifi/middle  
+wifi接続が中程度の時  
+黄点灯  
+### wifi/low  
+wifi接続が弱い時
+橙点灯
+### wifi/disconnect 
+wifi未接続時
+赤点灯
+## audio/    
+### audio/listening  
+聞き取り中
+青点滅
+### audio/thinking  
+処理中
+青回転
+### audio/res-success  
+応答成功
+青点灯
+### audio/res-fail  
+応答失敗
+赤点灯
+
