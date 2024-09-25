@@ -1,7 +1,7 @@
 import time
 from rpi_ws281x import PixelStrip, Color
 import argparse
-from flask import Flask,render_template,request
+#from flask import Flask,render_template,request
 
 
 # LED strip configuration:
@@ -14,17 +14,16 @@ LED_BRIGHTNESS = 255  # Set to 0 for darkest and 255 for brightest
 LED_INVERT = False    # True to invert the signal (when using NPN transistor level shift)
 LED_CHANNEL = 0       # set to '1-' for GPIOs 13, 19, 41, 45 or 53
 
-app=Flask(__name__)
 
 #回転  iteratonsに回転数
-def cycle(strip, color, wait_ms=80, iterations=4):
+def cycle(strip, color, wait_ms=80, iterations=10):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for q in range(12):
             for i in range(0, strip.numPixels(), 12):
-                strip.setPixelColor(i + q, color)
+                strip.setPixelColor(i + q+2, color)
             strip.show()
-            time.sleep(wait_ms / 1000.0)
+            time.sleep(wait_ms / 1000)
             for i in range(0, strip.numPixels(), 12):
               strip.setPixelColor(i + q, 0)
 #点灯
@@ -38,7 +37,7 @@ def turn_on(strip, color, wait_ms=10, iterations=1):
             time.sleep(wait_ms / 1000.0)
         time.sleep(5)
 #点滅
-def flash(strip, color, wait_ms=10, iterations=5):
+def flash(strip, color, wait_ms=10, iterations=100):
     """Movie theater light style chaser animation."""
     for j in range(iterations):
         for q in range(12):
@@ -71,6 +70,8 @@ if __name__ == '__main__':
         print('Use "-c" argument to clear LEDs on exit')
 
     try:
+        cycle(strip,Color(0,0,100))
+        '''
         @app.route("/")
         @app.route("wifi/high",methods=["post"])
         def wifi_high():
@@ -78,7 +79,7 @@ if __name__ == '__main__':
             
         if __name__ == "__main__":
             app.run(debug=True)
-            
+        '''    
     except KeyboardInterrupt:
         if args.clear:
             cycle(strip, Color(0, 0, 0), 10)

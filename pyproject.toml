@@ -8,3 +8,6 @@ dependencies = [
     "flask>=3.0.3",
     "rpi-ws281x>=5.0.0",
 ]
+
+[tool.uv.workspace]
+members = ["app"]
