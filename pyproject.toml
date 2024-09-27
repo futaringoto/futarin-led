@@ -9,5 +9,3 @@ dependencies = [
     "rpi-ws281x>=5.0.0",
 ]
 
-[tool.uv.workspace]
-members = ["app"]

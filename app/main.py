@@ -1,9 +1,11 @@
-from flask import Flask,request,jsonify
+from flask import Flask,request,jsonify,g
 import futarin_led as led
 import argparse 
 import time
 import threading
 from rpi_ws281x import PixelStrip, Color
+
+thread=None
 
 LED_COUNT = 12        # Number of LED pixels.
 LED_PIN = 12          # GPIO pin -connected to the pixels (18 uses PWM!).
@@ -24,12 +26,19 @@ if __name__ == '__main__':
     
     strip.begin()
     
+    
     try:
         @app.route("/")
         @app.route("/wifi/high",methods=["post"])
+        
         def wifi_high():
-           led.turn_on(strip,Color(0,0,100))
-           return jsonify({"status":"wifi high"}),202
+            global thread
+            if thread:
+                thread.stop()
+                thread.join()
+            thread=led.Cycle("wifi_high",strip,Color(150,100,0))
+            thread.start()
+            return jsonify({"status":"wifi high"}),202
         
         @app.route("/wifi/middle",methods=["post"])
         def wifi_middle():
@@ -38,12 +47,16 @@ if __name__ == '__main__':
         
         @app.route("/wifi/low",methods=["post"])
         def wifi_low():
-           led.turn_on(strip,Color(250,60,0))
-           return jsonify({"status":"wifi low"}),202
+            global thread
+            thread.stop()
+            thread.join()
+            thread=led.Turn_on("wifi_low",strip,Color(250,60,0))
+            thread.start()
+            return jsonify({"status":"wifi low"}),202
         
         @app.route("/wifi/disconnect",methods=["post"])
         def wifi_disconnect():
-           led.turn_on(strip,Color(200,0,0))
+           led.turn_on(strip,Color(250,0,0))
            return jsonify({"status":"wifi disconnect"}),202
         
         @app.route("/audio/listening",methods=["post"])
@@ -53,12 +66,12 @@ if __name__ == '__main__':
         
         @app.route("/audio/thinking",methods=["post"])
         def audio_thinking():
-           led.cycle(strip,Color(0,0,100))
+           led.cycle(strip,Color(0,0,250))
            return jsonify({"status":"thinking"}),202
         
         @app.route("/audio/res-success",methods=["post"])
         def audio_success():
-           led.turn_on(strip,Color(0,0,100))
+           led.turn_on(strip,Color(0,0,250))
            return jsonify({"status":"response success"}),202
         
         @app.route("/audio/res-fail",methods=["post"])
