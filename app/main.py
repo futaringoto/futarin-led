@@ -1,4 +1,4 @@
-from flask import Flask,request,jsonify,g
+from flask import Flask,request,jsonify
 import futarin_led as led
 import argparse 
 import time
@@ -36,48 +36,82 @@ if __name__ == '__main__':
             if thread:
                 thread.stop()
                 thread.join()
-            thread=led.Cycle("wifi_high",strip,Color(150,100,0))
+            thread=led.Turn_on("wifi_high",strip,Color(0,250,0))
             thread.start()
             return jsonify({"status":"wifi high"}),202
         
         @app.route("/wifi/middle",methods=["post"])
         def wifi_middle():
-           led.turn_on(strip,Color(150,100,0))
-           return jsonify({"status":"wifi middle"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Turn_on("wifi_middle",strip,Color(150,100,0))
+            thread.start
+            return jsonify({"status":"wifi middle"}),202
         
         @app.route("/wifi/low",methods=["post"])
         def wifi_low():
             global thread
-            thread.stop()
-            thread.join()
+            if thread:
+               thread.stop()
+               thread.join()
             thread=led.Turn_on("wifi_low",strip,Color(250,60,0))
             thread.start()
             return jsonify({"status":"wifi low"}),202
         
         @app.route("/wifi/disconnect",methods=["post"])
         def wifi_disconnect():
-           led.turn_on(strip,Color(250,0,0))
-           return jsonify({"status":"wifi disconnect"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Cycle("wifi_disconnect",strip,Color(250,0,0))
+            thread.start
+            
+            return jsonify({"status":"wifi disconnect"}),202
         
         @app.route("/audio/listening",methods=["post"])
         def audio_listening():
-           led.flash(strip,Color(200,100,0))
-           return jsonify({"status":"listening"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Flash("audio_listening",strip,Color(0,0,250))
+            thread.start
+           
+            return jsonify({"status":"listening"}),202
         
         @app.route("/audio/thinking",methods=["post"])
         def audio_thinking():
-           led.cycle(strip,Color(0,0,250))
-           return jsonify({"status":"thinking"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Cycle("audio_thinking",strip,Color(0,0,250))
+            thread.start
+           
+            return jsonify({"status":"thinking"}),202
         
         @app.route("/audio/res-success",methods=["post"])
         def audio_success():
-           led.turn_on(strip,Color(0,0,250))
-           return jsonify({"status":"response success"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Cycle("audio_response_success",strip,Color(0,0,250))
+            thread.start
+            return jsonify({"status":"response success"}),202
         
         @app.route("/audio/res-fail",methods=["post"])
         def audio_fail():
-           led.turn_on(strip,Color(100,0,0))
-           return jsonify({"status":"response fail"}),202
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Cycle("audio_response_fail",strip,Color(250,0,0))
+            thread.start
+            return jsonify({"status":"response fail"}),202
         
         if __name__ == "__main__":
             app.run(debug=True)
