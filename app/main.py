@@ -79,7 +79,7 @@ if __name__ == "__main__":
             if thread:
                thread.stop()
                thread.join()
-            thread=led.Flash("audio_listening",strip,Color(0,0,250))
+            thread=led.Flash("audio_listening",strip,Color(0,250,0))
             thread.start()
             
             return jsonify({"status":"listening"}),202
@@ -90,7 +90,7 @@ if __name__ == "__main__":
             if thread:
                thread.stop()
                thread.join()
-            thread=led.Cycle("audio_thinking",strip,Color(0,0,250))
+            thread=led.Cycle("audio_thinking",strip,Color(0,250,0))
             thread.start()
            
             return jsonify({"status":"thinking"}),202
@@ -101,7 +101,7 @@ if __name__ == "__main__":
             if thread:
                thread.stop()
                thread.join()
-            thread=led.Turn_on("audio_response_success",strip,Color(0,0,250))
+            thread=led.Turn_on("audio_response_success",strip,Color(0,250,0))
             thread.start()
             return jsonify({"status":"response success"}),202
         

@@ -26,7 +26,7 @@ class Cycle(threading.Thread):
 
 
 class Turn_on(threading.Thread):
-    def __init__(self, name, strip, color, wait_ms=80):
+    def __init__(self, name, strip, color, wait_ms=10):
         super().__init__(name=name)
         self.strip = strip
         self.color = color
@@ -48,7 +48,7 @@ class Turn_on(threading.Thread):
 
 
 class Flash(threading.Thread):
-    def __init__(self, name, strip, color, wait_ms=80):
+    def __init__(self, name, strip, color, wait_ms=10):
         super().__init__(name=name)
         self.strip = strip
         self.color = color
