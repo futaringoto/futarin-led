@@ -16,107 +16,107 @@ LED_CHANNEL = 0  # set to '1-' for GPIOs 13, 19, 41, 45 or 53
 app = Flask(__name__)
 
 
+strip = PixelStrip(
+    LED_COUNT,
+    LED_PIN,
+    LED_FREQ_HZ,
+    LED_DMA,
+    LED_INVERT,
+    LED_BRIGHTNESS,
+    LED_CHANNEL,
+)
+
+
+@app.route("/")
+@app.route("/wifi/high", methods=["post"])
+def wifi_high():
+    global thread
+    if thread:
+        thread.stop()
+        thread.join()
+    thread = led.Turn_on("wifi_high", strip, Color(0, 250, 0))
+    thread.start()
+    return jsonify({"status": "wifi high"}), 202
+
+@app.route("/wifi/middle", methods=["post"])
+def wifi_middle():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Turn_on("wifi_middle",strip,Color(150,100,0))
+    thread.start()
+    return jsonify({"status":"wifi middle"}),202
+
+@app.route("/wifi/low", methods=["post"])
+def wifi_low():
+    global thread
+    if thread:
+        thread.stop()
+        thread.join()
+    thread = led.Turn_on("wifi_low", strip, Color(250, 60, 0))
+    thread.start()
+    return jsonify({"status": "wifi low"}), 202
+
+@app.route("/wifi/disconnect", methods=["post"])
+def wifi_disconnect():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Turn_on("wifi_disconnect",strip,Color(250,0,0))
+    thread.start()
+    
+    return jsonify({"status":"wifi disconnect"}),202
+
+@app.route("/audio/listening",methods=["post"])
+def audio_listening():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Flash("audio_listening",strip,Color(0,250,0))
+    thread.start()
+    
+    return jsonify({"status":"listening"}),202
+
+@app.route("/audio/thinking",methods=["post"])
+def audio_thinking():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Cycle("audio_thinking",strip,Color(0,250,0))
+    thread.start()
+   
+    return jsonify({"status":"thinking"}),202
+
+@app.route("/audio/res-success",methods=["post"])
+def audio_success():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Turn_on("audio_response_success",strip,Color(0,250,0))
+    thread.start()
+    return jsonify({"status":"response success"}),202
+
+@app.route("/audio/res-fail",methods=["post"])
+def audio_fail():
+    global thread
+    if thread:
+       thread.stop()
+       thread.join()
+    thread=led.Turn_on("audio_response_fail",strip,Color(250,0,0))
+    thread.start()
+    return jsonify({"status":"response fail"}),202
+
 if __name__ == "__main__":
-    strip = PixelStrip(
-        LED_COUNT,
-        LED_PIN,
-        LED_FREQ_HZ,
-        LED_DMA,
-        LED_INVERT,
-        LED_BRIGHTNESS,
-        LED_CHANNEL,
-    )
-
-    strip.begin()
-
     try:
+        strip.begin()
+        wifi_disconnect()
 
-        @app.route("/")
-        @app.route("/wifi/high", methods=["post"])
-        def wifi_high():
-            global thread
-            if thread:
-                thread.stop()
-                thread.join()
-            thread = led.Turn_on("wifi_high", strip, Color(0, 250, 0))
-            thread.start()
-            return jsonify({"status": "wifi high"}), 202
-
-        @app.route("/wifi/middle", methods=["post"])
-        def wifi_middle():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Turn_on("wifi_middle",strip,Color(150,100,0))
-            thread.start()
-            return jsonify({"status":"wifi middle"}),202
-
-        @app.route("/wifi/low", methods=["post"])
-        def wifi_low():
-            global thread
-            if thread:
-                thread.stop()
-                thread.join()
-            thread = led.Turn_on("wifi_low", strip, Color(250, 60, 0))
-            thread.start()
-            return jsonify({"status": "wifi low"}), 202
-
-        @app.route("/wifi/disconnect", methods=["post"])
-        def wifi_disconnect():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Turn_on("wifi_disconnect",strip,Color(250,0,0))
-            thread.start()
-            
-            return jsonify({"status":"wifi disconnect"}),202
-        
-        @app.route("/audio/listening",methods=["post"])
-        def audio_listening():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Flash("audio_listening",strip,Color(0,250,0))
-            thread.start()
-            
-            return jsonify({"status":"listening"}),202
-        
-        @app.route("/audio/thinking",methods=["post"])
-        def audio_thinking():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Cycle("audio_thinking",strip,Color(0,250,0))
-            thread.start()
-           
-            return jsonify({"status":"thinking"}),202
-        
-        @app.route("/audio/res-success",methods=["post"])
-        def audio_success():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Turn_on("audio_response_success",strip,Color(0,250,0))
-            thread.start()
-            return jsonify({"status":"response success"}),202
-        
-        @app.route("/audio/res-fail",methods=["post"])
-        def audio_fail():
-            global thread
-            if thread:
-               thread.stop()
-               thread.join()
-            thread=led.Turn_on("audio_response_fail",strip,Color(250,0,0))
-            thread.start()
-            return jsonify({"status":"response fail"}),202
-
-        if __name__ == "__main__":
-            app.run(debug=True, port=8080)
+        app.run(debug=True, port=8080)
 
     except KeyboardInterrupt:
         pass
