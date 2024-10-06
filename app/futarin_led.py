@@ -19,7 +19,7 @@ class Cycle(threading.Thread):
                 self.strip.show()
                 time.sleep(self.wait_ms / 1000)
                 for i in range(0, self.strip.numPixels(), 12):
-                    self.strip.setPixelColor(i + q, 0)
+                    self.strip.setPixelColor(i + (q+7)%12, 0)
 
     def stop(self):
         self.should_stop = True

@@ -32,6 +32,26 @@ if __name__ == "__main__":
     try:
 
         @app.route("/")
+        @app.route("/system/on", methods=["post"])
+        def power_on():
+            global thread
+            if thread:
+                thread.stop()
+                thread.join()
+            thread = led.Turn_on("power_on", strip, Color(250, 250, 250))
+            thread.start()
+            return jsonify({"status": "power on"}), 202
+        
+        @app.route("/system/off", methods=["post"])
+        def power_off():
+            global thread
+            if thread:
+                thread.stop()
+                thread.join()
+            thread = led.Turn_on("power_off", strip, Color(250, 250, 250))
+            thread.start()
+            return jsonify({"status": "power off"}), 202
+        
         @app.route("/wifi/high", methods=["post"])
         def wifi_high():
             global thread
@@ -48,7 +68,7 @@ if __name__ == "__main__":
             if thread:
                thread.stop()
                thread.join()
-            thread=led.Turn_on("wifi_middle",strip,Color(150,100,0))
+            thread=led.Turn_on("wifi_middle",strip,Color(150, 100, 0))
             thread.start()
             return jsonify({"status":"wifi middle"}),202
 
@@ -114,6 +134,26 @@ if __name__ == "__main__":
             thread=led.Turn_on("audio_response_fail",strip,Color(250,0,0))
             thread.start()
             return jsonify({"status":"response fail"}),202
+        
+        @app.route("/audio/uploading",methods=["post"])
+        def audio_uploading():
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Cycle("audio_uploading",strip,Color(250,70,70))
+            thread.start()
+            return jsonify({"status":"uploading"}),202
+        
+        @app.route("/audio/receive",methods=["post"])
+        def audio_receive():
+            global thread
+            if thread:
+               thread.stop()
+               thread.join()
+            thread=led.Turn_on("audio_receive",strip,Color(250,70,70))
+            thread.start()
+            return jsonify({"status":"receive"}),202
 
         if __name__ == "__main__":
             app.run(debug=True, port=8080)
