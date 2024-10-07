@@ -42,6 +42,16 @@ if __name__ == "__main__":
             thread.start()
             return jsonify({"status": "power on"}), 202
         
+        @app.route("/system/setup", methods=["post"])
+        def setup():
+            global thread
+            if thread:
+                thread.stop()
+                thread.join()
+            thread = led.Cycle("setup", strip, Color(250, 250, 250))
+            thread.start()
+            return jsonify({"status": "setup"}), 202
+        
         @app.route("/system/off", methods=["post"])
         def power_off():
             global thread
