@@ -52,6 +52,16 @@ if __name__ == "__main__":
             thread.start()
             return jsonify({"status": "power off"}), 202
         
+        @app.route("/system/turn_off", methods=["post"])
+        def turn_off():
+            global thread
+            if thread:
+                thread.stop()
+                thread.join()
+            thread = led.Turn_on("turn_off", strip, Color(0, 0, 0))
+            thread.start()
+            return jsonify({"status": "turn_off"}), 202
+        
         @app.route("/wifi/high", methods=["post"])
         def wifi_high():
             global thread
