@@ -1,0 +1,11 @@
+[Unit]
+Description=futarin status led server
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/futarin/futarin-led
+ExecStart=/home/futarin/.cargo/bin/uv run /opt/futarin/futarin-led/app/main.py
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
