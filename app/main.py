@@ -187,4 +187,4 @@ if __name__ == "__main__":
     thread = led.Turn_on("power_on", strip, Color(250, 250, 250))
     thread.start()
 
-    app.run(debug=True, port=8080)
+    app.run(port=8080)
