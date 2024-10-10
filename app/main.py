@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from sys import exit
 import futarin_led as led
 from rpi_ws281x import PixelStrip, Color
 
@@ -185,13 +184,7 @@ def audio_receive():
 
 
 if __name__ == "__main__":
-    try:
-        # power_on()
-        if thread:
-            thread.stop()
-            thread.join()
-        thread = led.Turn_on("power_on", strip, Color(250, 250, 250))
-        thread.start()
-        app.run(debug=True, port=8080)
-    except KeyboardInterrupt:
-        exit()
+    thread = led.Turn_on("power_on", strip, Color(250, 250, 250))
+    thread.start()
+
+    app.run(debug=True, port=8080)
