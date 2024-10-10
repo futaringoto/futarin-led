@@ -176,8 +176,8 @@ if __name__ == "__main__":
             return jsonify({"status": "receive"}), 202
 
         if __name__ == "__main__":
+            power_on()
             app.run(debug=True, port=8080)
 
     except KeyboardInterrupt:
         pass
-
