@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-app/futarin_led.py
-app/main.py
-futarin_led.egg-info/PKG-INFO
-futarin_led.egg-info/SOURCES.txt
-futarin_led.egg-info/dependency_links.txt
-futarin_led.egg-info/requires.txt
-futarin_led.egg-info/top_level.txt
