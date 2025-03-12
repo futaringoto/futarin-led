@@ -4,7 +4,7 @@ Description=futarin status led server
 [Service]
 Type=simple
 WorkingDirectory=/opt/futarin/futarin-led
-ExecStart=/opt/futarin/uv/bin/uv run /opt/futarin/futarin-led/app/main.py
+ExecStart=/opt/futarin/uv/uv run /opt/futarin/futarin-led/app/main.py
 Restart=always
 
 [Install]
